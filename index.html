@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bhai Tutor — Your Desi AI Study Buddy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --saffron: #FF6B00;
+      --saffron-light: #FF8C38;
+      --green: #00A550;
+      --green-light: #00C761;
+      --cream: #FFF8F0;
+      --ink: #1A1208;
+      --ink-soft: #3D2E1A;
+      --card-bg: #FFFFFF;
+      --border: #FFD9B3;
+      --step-inactive: #E8DDD0;
+      --step-active: var(--saffron);
+      --step-done: var(--green);
+      --shadow: 0 4px 24px rgba(255,107,0,0.10);
+      --shadow-lg: 0 8px 40px rgba(255,107,0,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,107,0,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(0,165,80,0.07) 0%, transparent 50%);
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--ink);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo .dot-saffron { color: var(--saffron); }
+    .logo .dot-green { color: var(--green-light); }
+
+    .tagline-header {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1rem 2rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,107,0,0.12);
+      border: 1px solid var(--border);
+      color: var(--saffron);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero h1 span { color: var(--saffron); }
+
+    .hero p {
+      color: var(--ink-soft);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── Main Card ── */
+    .main-card {
+      max-width: 680px;
+      margin: 0 auto 3rem;
+      padding: 0 1rem;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    input, textarea {
+      font-family: 'Noto Sans', sans-serif;
+      font-size: 0.95rem;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      color: var(--ink);
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      resize: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--saffron);
+      box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+    }
+
+    textarea { min-height: 100px; margin-bottom: 1.2rem; }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--saffron);
+      color: #fff;
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 2rem;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(255,107,0,0.25);
+    }
+
+    .submit-btn:hover {
+      background: var(--saffron-light);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255,107,0,0.35);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
+
+    /* ── Pipeline Steps ── */
+    .pipeline {
+      display: none;
+      margin-top: 2rem;
+      gap: 0.75rem;
+      flex-direction: column;
+    }
+
+    .pipeline.visible { display: flex; }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      border: 1.5px solid var(--step-inactive);
+      transition: border 0.3s, box-shadow 0.3s;
+      opacity: 0.5;
+    }
+
+    .step.active {
+      border-color: var(--saffron);
+      box-shadow: 0 2px 12px rgba(255,107,0,0.12);
+      opacity: 1;
+    }
+
+    .step.done {
+      border-color: var(--green);
+      box-shadow: 0 2px 12px rgba(0,165,80,0.10);
+      opacity: 1;
+    }
+
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--step-inactive);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: background 0.3s;
+    }
+
+    .step.active .step-icon { background: var(--saffron); }
+    .step.done .step-icon { background: var(--green); }
+
+    .step-content { flex: 1; }
+
+    .step-title {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    .step-status {
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+    }
+
+    .step.active .step-status { color: var(--saffron); }
+    .step.done .step-status { color: var(--green); }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,107,0,0.3);
+      border-top-color: var(--saffron);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Refined prompt reveal ── */
+    .refined-box {
+      display: none;
+      margin-top: 0.6rem;
+      background: rgba(255,107,0,0.06);
+      border-left: 3px solid var(--saffron);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    .refined-box.show { display: block; }
+
+    /* ── Answer Card ── */
+    .answer-card {
+      display: none;
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 2rem;
+      color: #fff;
+      animation: fadeUp 0.5s ease forwards;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .answer-card.show { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .answer-header {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .bhai-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .bhai-info .name {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .bhai-info .role {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .answer-body {
+      font-size: 0.97rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.88);
+      white-space: pre-wrap;
+    }
+
+    .answer-footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .ask-again-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: #fff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 8px;
+      font-family: 'Baloo 2', cursive;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: border 0.2s, background 0.2s;
+    }
+
+    .ask-again-btn:hover {
+      border-color: var(--saffron);
+      background: rgba(255,107,0,0.1);
+    }
+
+    /* ── Error ── */
+    .error-box {
+      display: none;
+      background: #FFF0F0;
+      border: 1.5px solid #FFB3B3;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      color: #C0392B;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .error-box.show { display: block; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: rgba(26,18,8,0.4);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 1.4rem; }
+      .hero { padding: 2rem 1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    🎒 Bhai<span class="dot-saffron">.</span>Tutor<span class="dot-green">✦</span>
+  </div>
+  <span class="tagline-header">Powered by AI · Made for Desi Students</span>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">✦ NCERT · Hinglish · 3-Step AI Pipeline</div>
+  <h1>Tera Padhaku <span>Bhai</span><br>Ab AI Mein Hai</h1>
+  <p>Doubt puch, bhai samjhayega — textbook accuracy ke saath, lekin apne andaaz mein.</p>
+</section>
+
+<main class="main-card">
+  <div class="form-card">
+    <div class="form-row">
+      <div class="form-group">
+        <label>📚 Class</label>
+        <input type="text" id="student_class" placeholder="e.g. 10" maxlength="10"/>
+      </div>
+      <div class="form-group">
+        <label>🔬 Subject</label>
+        <input type="text" id="student_subject" placeholder="e.g. Physics"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>🤔 Tera Doubt</label>
+      <textarea id="doubt" placeholder="Yaar, Newton ke laws mujhe samajh nahi aate..."></textarea>
+    </div>
+    <button class="submit-btn" id="askBtn" onclick="askQuestion()">🚀 Bhai Se Pooch!</button>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <!-- Pipeline steps -->
+    <div class="pipeline" id="pipeline">
+      <div class="step" id="step1">
+        <div class="step-icon">✏️</div>
+        <div class="step-content">
+          <div class="step-title">Step 1 · Prompt Refiner</div>
+          <div class="step-status" id="step1-status">Waiting...</div>
+          <div class="refined-box" id="refinedBox"></div>
+        </div>
+      </div>
+      <div class="step" id="step2">
+        <div class="step-icon">📖</div>
+        <div class="step-content">
+          <div class="step-title">Step 2 · NCERT Knowledge Engine</div>
+          <div class="step-status" id="step2-status">Waiting...</div>
+        </div>
+      </div>
+      <div class="step" id="step3">
+        <div class="step-icon">😎</div>
+        <div class="step-content">
+          <div class="step-title">Step 3 · Bhai Mode</div>
+          <div class="step-status" id="step3-status">Waiting...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Answer -->
+  <div class="answer-card" id="answerCard">
+    <div class="answer-header">
+      <div class="bhai-avatar">😎</div>
+      <div class="bhai-info">
+        <div class="name">Bhai Tutor</div>
+        <div class="role">Tera AI Padhaku Bhai</div>
+      </div>
+    </div>
+    <div class="answer-body" id="answerBody"></div>
+    <div class="answer-footer">
+      <button class="ask-again-btn" onclick="resetForm()">↩ Aur Poochh</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Built with ❤️ · Bhai Tutor uses a 3-step AI pipeline: Refine → NCERT Answer → Hinglish Fun
+</footer>
+
+<script>
+  function setStep(num, state, statusText) {
+    const el = document.getElementById(`step${num}`);
+    const statusEl = document.getElementById(`step${num}-status`);
+    el.className = `step ${state}`;
+    if (state === 'active') {
+      statusEl.innerHTML = `<span class="spinner"></span>${statusText}`;
+    } else if (state === 'done') {
+      statusEl.textContent = '✓ ' + statusText;
+    }
+  }
+
+  async function askQuestion() {
+    const student_class = document.getElementById('student_class').value.trim();
+    const student_subject = document.getElementById('student_subject').value.trim();
+    const doubt = document.getElementById('doubt').value.trim();
+    const errorBox = document.getElementById('errorBox');
+    const answerCard = document.getElementById('answerCard');
+
+    errorBox.className = 'error-box';
+    answerCard.className = 'answer-card';
+
+    if (!student_class || !student_subject || !doubt) {
+      errorBox.textContent = 'Yaar, saare fields fill kar — class, subject, aur doubt!';
+      errorBox.className = 'error-box show';
+      return;
+    }
+
+    document.getElementById('askBtn').disabled = true;
+    document.getElementById('pipeline').className = 'pipeline visible';
+
+    // Reset steps
+    [1,2,3].forEach(n => {
+      document.getElementById(`step${n}`).className = 'step';
+      document.getElementById(`step${n}-status`).textContent = 'Waiting...';
+    });
+    document.getElementById('refinedBox').className = 'refined-box';
+
+    setStep(1, 'active', 'Refining your question...');
+
+    const response = await fetch('/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ student_class, student_subject, doubt })
+    });
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        try {
+          const data = JSON.parse(line.slice(6));
+
+          if (data.error) {
+            errorBox.textContent = 'Error: ' + data.error;
+            errorBox.className = 'error-box show';
+            document.getElementById('askBtn').disabled = false;
+            return;
+          }
+
+          if (data.step === 1) {
+            if (data.done) {
+              setStep(1, 'done', 'Prompt refined!');
+              const rb = document.getElementById('refinedBox');
+              rb.textContent = '"' + data.refined + '"';
+              rb.className = 'refined-box show';
+              setStep(2, 'active', 'Fetching NCERT knowledge...');
+            }
+          }
+
+          if (data.step === 2 && data.done) {
+            setStep(2, 'done', 'Knowledge fetched!');
+            setStep(3, 'active', 'Bhai is cooking...');
+          }
+
+          if (data.step === 3 && data.done) {
+            setStep(3, 'done', 'Bhai explanation ready!');
+            document.getElementById('answerBody').textContent = data.final;
+            document.getElementById('answerCard').className = 'answer-card show';
+            document.getElementById('askBtn').disabled = false;
+          }
+        } catch(e) { /* ignore parse errors */ }
+      }
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('doubt').value = '';
+    document.getElementById('answerCard').className = 'answer-card';
+    document.getElementById('pipeline').className = 'pipeline';
+    document.getElementById('doubt').focus();
+  }
+
+  // Allow Enter to submit (Shift+Enter for newline)
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('doubt').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        askQuestion();
+      }
+    });
+  });
+</script>
+</body>
+</html>
