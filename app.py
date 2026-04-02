@@ -11,7 +11,7 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 def refine_prompt(raw_prompt, student_class, student_subject):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {
                 "role": "system",
@@ -32,7 +32,7 @@ def refine_prompt(raw_prompt, student_class, student_subject):
 
 def generate_answer(refined_prompt, student_class, student_subject):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {
                 "role": "system",
@@ -51,7 +51,7 @@ def generate_answer(refined_prompt, student_class, student_subject):
 
 def make_it_fun(answer, student_class, student_subject):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {
                 "role": "system",
